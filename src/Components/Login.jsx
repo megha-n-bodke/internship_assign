@@ -1,16 +1,8 @@
-import { Button, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
-import { MuiTelInput } from "mui-tel-input";
-
-// import MuiPhoneNumber from "material-ui-phone-number";
 
 const Login = () => {
-  const [phone, setPhone] = useState("");
-
-  const handleChange = (newPhone) => {
-    setPhone(newPhone);
-  };
-  /* const [values, setValues] = useState({
+  const [values, setValues] = useState({
     name: "",
     phone: "",
     email: "",
@@ -18,12 +10,6 @@ const Login = () => {
 
   // error handling state
   const [errors, setErrors] = useState({});
-
-  // after form submit data
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setErrors(validate());
-  };
 
   // error handling
   const validate = () => {
@@ -38,58 +24,72 @@ const Login = () => {
     }
     if (!values.phone) {
       errors.phone = "Phone number is required";
+    } else if (!/^\d{3}\d{3}\d{4}$/.test(values.phone)) {
+      errors.phone = "Invalid phone number";
     }
     return errors;
-  }; */
+  };
+
+  const handleChange = (event) => {
+    setValues((prevData) => {
+      return {
+        ...prevData,
+        [event.target.id]: event.target.value,
+      };
+    });
+  };
+
+  console.table(values);
+  // after form submit data
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setErrors(validate());
+
+    //store data to localstorage
+    const information = JSON.stringify(values);
+    localStorage.setItem("info", information);
+
+    // setValues("");
+  };
 
   return (
     <div>
-      <form>
-        <TextField
-          label="Name"
-          name="name"
-          //   value={formData.name}
-          //   onChange={handleChange}
-          //   error={!!errors.name}
-          //   helperText={errors.name}
-          //   margin="normal"
-          required
-        />
+      <form onSubmit={handleSubmit}>
+        <Box display="flex" flexDirection={"column"}>
+          <TextField
+            label="Name"
+            id="name"
+            value={values.name}
+            onChange={handleChange}
+            error={!!errors.name}
+            helperText={errors.name}
+            margin="normal"
+          />
 
-        <TextField
-          label="Email"
-          name="email"
-          //value={formData.email}
-          // onChange={handleChange}
-          // error={!!errors.email}
-          // helperText={errors.email}
-          margin="normal"
-          required
-        />
-        <MuiTelInput
-          label="Enter your phone number"
-          name="phone"
-          margin="normal"
-          value={phone}
-          onChange={handleChange}
-          required
-        />
+          <TextField
+            label="Email"
+            id="email"
+            value={values.email}
+            onChange={handleChange}
+            error={!!errors.email}
+            helperText={errors.email}
+            margin="normal"
+          />
+          <TextField
+            label="Enter your phone number"
+            id="phone"
+            type="number"
+            margin="normal"
+            value={values.phone}
+            onChange={handleChange}
+            error={!!errors.phone}
+            helperText={errors.phone}
+          />
 
-        <TextField
-          type="tel"
-          label="Phone number"
-          name="phone"
-          //value={formData.email}
-          // onChange={handleChange}
-          // error={!!errors.email}
-          // helperText={errors.email}
-          margin="normal"
-          required
-        />
-
-        <Button variant="outlined" type="submit">
-          Login
-        </Button>
+          <Button variant="outlined" type="submit">
+            Submit
+          </Button>
+        </Box>
       </form>
     </div>
   );
