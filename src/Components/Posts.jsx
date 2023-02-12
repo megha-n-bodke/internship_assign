@@ -53,13 +53,8 @@ const Posts = () => {
       //     <li key={post.id}>{post.title}</li>
       //   ))}
       // </div>
-      <div style={{ height: 500, width: "100%" }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={10}
-          // rowsPerPageOptions={10}
-        />
+      <div style={{ height: 500, width: 800 }}>
+        <DataGrid rows={rows} columns={columns} pageSize={10} />
       </div>
     );
   }
