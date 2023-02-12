@@ -48,14 +48,18 @@ const Login = () => {
     e.preventDefault();
     setErrors(validate());
 
-    //store data to localstorage
-
-    if (values.name === "" && values.email === "" && values.phone == "") {
-      console.log("Object is empty");
+    //check if user already logged in or not
+    if (localStorage.getItem("info")) {
+      alert("Already logged in");
     } else {
-      const information = JSON.stringify(values);
-      localStorage.setItem("info", information);
-      navigate("/posts");
+      //store data to localstorage
+      if (values.name === "" && values.email === "" && values.phone == "") {
+        console.log("Object is empty");
+      } else {
+        const information = JSON.stringify(values);
+        localStorage.setItem("info", information);
+        navigate("/posts");
+      }
     }
     // setValues("");
   };
