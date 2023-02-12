@@ -27,7 +27,7 @@ const Posts = () => {
   const columns = [
     { field: "id", headerName: "Id", width: 150 },
     { field: "userId", headerName: "userId", width: 150 },
-    { field: "title", headerName: "title", width: 150 },
+    { field: "title", headerName: "title", width: 650 },
   ];
   const rows = posts.map((row) => ({
     id: row.id,
