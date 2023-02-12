@@ -1,5 +1,6 @@
 import { Box, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [values, setValues] = useState({
@@ -7,6 +8,8 @@ const Login = () => {
     phone: "",
     email: "",
   });
+
+  const navigate = useNavigate();
 
   // error handling state
   const [errors, setErrors] = useState({});
@@ -46,10 +49,19 @@ const Login = () => {
     setErrors(validate());
 
     //store data to localstorage
-    const information = JSON.stringify(values);
-    localStorage.setItem("info", information);
 
+    if (values.name === "" && values.email === "" && values.phone == "") {
+      console.log("Object is empty");
+    } else {
+      const information = JSON.stringify(values);
+      localStorage.setItem("info", information);
+      navigate("/posts");
+    }
     // setValues("");
+  };
+
+  const remove = () => {
+    localStorage.removeItem("info");
   };
 
   return (
@@ -88,6 +100,9 @@ const Login = () => {
 
           <Button variant="outlined" type="submit">
             Submit
+          </Button>
+          <Button variant="outlined" onClick={remove}>
+            Logout
           </Button>
         </Box>
       </form>
