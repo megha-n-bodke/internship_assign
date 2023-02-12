@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { DataGrid } from "@mui/x-data-grid";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -10,6 +11,7 @@ const Posts = () => {
       const response = await axios.get(
         "https://jsonplaceholder.typicode.com/posts"
       );
+      setPosts(response.data);
       console.log(response.data);
     } catch (error) {
       console.log(error);
@@ -20,6 +22,19 @@ const Posts = () => {
   useEffect(() => {
     getPosts();
   }, []);
+
+  //datagrid columns
+  const columns = [
+    { field: "id", headerName: "Id", width: 150 },
+    { field: "userId", headerName: "userId", width: 150 },
+    { field: "title", headerName: "title", width: 150 },
+  ];
+  const rows = posts.map((row) => ({
+    id: row.id,
+    userId: row.userId,
+    title: row.title,
+  }));
+
   if (!localStorage.getItem("info")) {
     console.log("empty");
     return (
@@ -32,7 +47,21 @@ const Posts = () => {
       </div>
     );
   } else {
-    return <div>Posts</div>;
+    return (
+      // <div>
+      //   {posts.map((post) => (
+      //     <li key={post.id}>{post.title}</li>
+      //   ))}
+      // </div>
+      <div style={{ height: 500, width: "100%" }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={10}
+          // rowsPerPageOptions={10}
+        />
+      </div>
+    );
   }
 };
 
